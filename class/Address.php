@@ -108,6 +108,9 @@ class Address implements Action {
         $address->setCode($singleAddress['code']);
         $address->setStreet($singleAddress['street']);
         $address->setNumber($singleAddress['number']);
+        $address->id = $singleAddress['id'];
+
+        return $address;
     }
 
     public static function loadAll() {
