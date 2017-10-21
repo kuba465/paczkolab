@@ -30,7 +30,7 @@
     $pathId = isset ($path[2]) ? $path[2] : null;
 
     if ( ! isset ($response['error'])) {//process request if no db error
-        include_once __DIR__ . './restEndPoints/' . $className . '.php';
+        include_once __DIR__ . '/restEndPoints/' . $className . '.php';
     }
 
     header ('Content-Type: application/json');//return json header
