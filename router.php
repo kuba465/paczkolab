@@ -20,10 +20,10 @@ $path = explode('/', $uriPathInfo);
 $requestClass = $path[1];
 
 //load class file
-$requestClass = preg_replace('#[^0-9a-zA-Z]#', '', $requestClass);//remove all non alfanum chars from request
+$requestClass = preg_replace('#[^0-9a-zA-Z]#', '', $requestClass); //remove all non alfanum chars from request
 $className = ucfirst(strtolower($requestClass));
 
-$classFile = __DIR__.'/class/'.$className.'.php';
+$classFile = __DIR__ . '/class/' . $className . '.php';
 require_once $classFile;
 
 ######### END DYNAMIC LOAD #########
@@ -31,13 +31,13 @@ require_once $classFile;
 $pathId = isset($path[2]) ? $path[2] : null;
 
 if (!isset($response['error'])) {//process request if no db error
-    include_once __DIR__.'/restEndPoints/'.$className.'.php';
+    include_once __DIR__ . '/restEndPoints/' . $className . '.php';
 }
 
-header('Content-Type: application/json');//return json header
+header('Content-Type: application/json'); //return json header
 
 if (isset($response['error'])) {
-    header("HTTP/1.0 400 Bad Request");//return proper http code if error
+    header("HTTP/1.0 400 Bad Request"); //return proper http code if error
 }
 
 echo json_encode($response);
