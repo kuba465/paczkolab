@@ -1,7 +1,7 @@
 <?php
 
-class DBmysql implements Database
-{
+class DBmysql implements Database {
+
     /**
      * Database Handler
      *
@@ -34,8 +34,7 @@ class DBmysql implements Database
      *
      * Generates the PDO Database-handler. Also sets the charset for communication to UTF-8
      */
-    public function __construct()
-    {
+    public function __construct() {
         $dbid = 'mysql:host=' . DB_SERVER_NAME . ';dbname=' . DB_BASE_NAME . ';charset=utf8';
         $options = array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
         try {
@@ -54,8 +53,7 @@ class DBmysql implements Database
      *
      * @param string $query
      */
-    public function query($query)
-    {
+    public function query($query) {
         $this->stmt = $this->dbh->prepare($query);
     }
 
@@ -70,8 +68,7 @@ class DBmysql implements Database
      * @param string $value
      * @param bool $type
      */
-    public function bind($param, $value, $type = null)
-    {
+    public function bind($param, $value, $type = null) {
         if (is_null($type)) {
             switch (true) {
                 case is_int($value) :
@@ -96,8 +93,7 @@ class DBmysql implements Database
      *
      * @return mixed
      */
-    public function execute()
-    {
+    public function execute() {
         return $this->stmt->execute();
     }
 
@@ -106,8 +102,7 @@ class DBmysql implements Database
      *
      * @return mixed
      */
-    public function resultSet()
-    {
+    public function resultSet() {
         $this->execute();
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -117,8 +112,7 @@ class DBmysql implements Database
      *
      * @return mixed
      */
-    public function single()
-    {
+    public function single() {
         $this->execute();
         return $this->stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -128,8 +122,7 @@ class DBmysql implements Database
      *
      * @return mixed
      */
-    public function rowCount()
-    {
+    public function rowCount() {
         return $this->stmt->rowCount();
     }
 
@@ -139,8 +132,7 @@ class DBmysql implements Database
      * @return string
      *
      */
-    public function lastInsertId()
-    {
+    public function lastInsertId() {
         return $this->dbh->lastInsertId();
     }
 
@@ -149,8 +141,8 @@ class DBmysql implements Database
      *
      * @return string
      */
-    public function getError()
-    {
+    public function getError() {
         return $this->error;
     }
+
 }

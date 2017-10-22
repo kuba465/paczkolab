@@ -95,7 +95,7 @@ class User implements Action {
     }
 
     public static function load($id = null) {
-        $sql = "SELECT * FROM Users 
+        $sql = "SELECT * FROM Users
                     JOIN Addresses ON Users.user_address = Addresses.id
                     WHERE Users.id=:id";
         self::$db->query($sql);
@@ -114,7 +114,7 @@ class User implements Action {
 
     public static function loadAll() {
         $userList = [];
-        $sql = "SELECT * FROM Users 
+        $sql = "SELECT * FROM Users
                     JOIN Addresses ON Users.user_address = Addresses.id";
         self::$db->query($sql);
         $allUsersFromDb = self::$db->resultSet();
