@@ -7,7 +7,7 @@ class User implements Action {
     public $name = '';
     public $surname = '';
     public $credits = 0;
-    public $userAddressId = '';
+    public $userAddressId;
 
     function getId() {
         return $this->id;
@@ -95,9 +95,10 @@ class User implements Action {
     }
 
     public static function load($id = null) {
-        $sql = "SELECT * FROM Users 
-                    JOIN Addresses ON Users.user_address = Addresses.id
-                    WHERE Users.id=:id";
+//        $sql = "SELECT * FROM Users 
+//                    JOIN Addresses ON Users.user_address = Addresses.id
+//                    WHERE Users.id=:id";
+        $sql = 'SELECT * FROM Users WHERE id=:id';// U JOIN (SELECT id as address_id, city, code, street, number from Addresses) as A on U.user_address = A.address_id WHERE U.id=:id';
         self::$db->query($sql);
         self::$db->bind('id', $id);
         $singleUser = self::$db->single();
@@ -114,12 +115,13 @@ class User implements Action {
 
     public static function loadAll() {
         $userList = [];
-        $sql = "SELECT * FROM Users 
-                    JOIN Addresses ON Users.user_address = Addresses.id";
+//        $sql = "SELECT * FROM Users 
+//                    JOIN Addresses ON Users.user_address = Addresses.id";
+        $sql = 'SELECT * FROM Users'; //U JOIN (SELECT id as address_id, city, code, street, number from Addresses) as A on U.user_address = A.address_id';
         self::$db->query($sql);
         $allUsersFromDb = self::$db->resultSet();
         foreach ($allUsersFromDb as $user) {
-            $userList = [
+            $userList[] = [
                 'id' => $user['id'],
                 'name' => $user['name'],
                 'surname' => $user['surname'],
