@@ -3,8 +3,16 @@
 User::setDb($db);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $users = User::loadAll();
-
+    if (!is_null($pathId)) {
+        $users = User::loadAll();
+        $jsonUsers = [];
+        foreach ($users as $user) {
+            $jsonUsers[] = json_decode(json_encode($user), true);
+        }
+        $response = ['response' => $jsonUsers];
+    } else {
+        $users = User::load($pathId);
+    }
     echo json_encode($users);
 
     exit;

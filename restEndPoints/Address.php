@@ -3,7 +3,16 @@
 Address::setDb($db);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $addresses = Address::loadAll();
+    if (!is_null($pathId)) {
+        $addresses = Address::loadAll();
+        $jsonAddresses = [];
+        foreach ($addresses as $address) {
+            $jsonAddresses[] = json_decode(json_encode($address), true);
+        }
+        $response = ['response' => $jsonAddresses];
+    } else {
+        $addresses = Address::load($pathId);
+    }
     echo json_encode($addresses);
     exit;
 }
