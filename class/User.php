@@ -95,10 +95,16 @@ class User implements Action {
     }
 
     public static function load($id = null) {
+<<<<<<< HEAD
 //        $sql = "SELECT * FROM Users 
 //                    JOIN Addresses ON Users.user_address = Addresses.id
 //                    WHERE Users.id=:id";
         $sql = 'SELECT * FROM Users WHERE id=:id';// U JOIN (SELECT id as address_id, city, code, street, number from Addresses) as A on U.user_address = A.address_id WHERE U.id=:id';
+=======
+        $sql = "SELECT * FROM Users
+                    JOIN Addresses ON Users.user_address = Addresses.id
+                    WHERE Users.id=:id";
+>>>>>>> marta
         self::$db->query($sql);
         self::$db->bind('id', $id);
         $singleUser = self::$db->single();
@@ -115,9 +121,14 @@ class User implements Action {
 
     public static function loadAll() {
         $userList = [];
+<<<<<<< HEAD
 //        $sql = "SELECT * FROM Users 
 //                    JOIN Addresses ON Users.user_address = Addresses.id";
         $sql = 'SELECT * FROM Users'; //U JOIN (SELECT id as address_id, city, code, street, number from Addresses) as A on U.user_address = A.address_id';
+=======
+        $sql = "SELECT * FROM Users
+                    JOIN Addresses ON Users.user_address = Addresses.id";
+>>>>>>> marta
         self::$db->query($sql);
         $allUsersFromDb = self::$db->resultSet();
         foreach ($allUsersFromDb as $user) {
