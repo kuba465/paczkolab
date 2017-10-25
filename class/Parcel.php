@@ -8,13 +8,12 @@ class Parcel implements Action {
      */
     public static $db;
     private $id = -1;
-    private $user_id = '';
-    private $size_id = 0;
-    private $address_id = '';
+    private $user_id;
+    private $size_id;
+    private $address_id;
 
     public function delete() {
-        $parcel = User::load($this->getId());
-        $sql = "DELETE FROM Parcel WHERE id=" . $parcel->getId();
+        $sql = "DELETE FROM Parcel WHERE id=:id";
         self::$db->query($sql);
         self::$db->execute();
     }
@@ -45,7 +44,7 @@ class Parcel implements Action {
     }
 
     public static function load($id = null) {
-        $sql = "SELECT * FORM Parcel" . $parcel->getId();
+        $sql = "SELECT * FORM Parcel WHERE id=:id";
 
         //"SELECT * FROM `Parcel` JOIN Addresses ON Parcel.address_id = Addresses.id WHERE Parcel.address_id=:address_id";
 
