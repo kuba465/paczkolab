@@ -13,7 +13,8 @@ class Parcel implements Action {
     private $address_id;
 
     public function delete() {
-        $sql = "DELETE FROM Parcel WHERE id=:id";
+        $parcel = Parcel::load($this->getId());
+        $sql = "DELETE FROM Parcel WHERE id= " . $parcel->getId();
         self::$db->query($sql);
         self::$db->execute();
     }
@@ -34,9 +35,9 @@ class Parcel implements Action {
     }
 
     public function update() {
-        $sql = "UPDATE Parcel SET user_id=:user_id, size_id=:size_id, address_id=:address_id WHERE" . $parcel->getId();
-        ;
+        $sql = "UPDATE Parcel SET user_id=:user_id, size_id=:size_id, address_id=:address_id WHERE id=:id";
         self::$db->query($sql);
+        self::$db->bind('id', $this->getId());
         self::$db->bind('user_id', $this->getUserId());
         self::$db->bind('size_id', $this->getSizeId());
         self::$db->bind('address_id', $this->getAddressId());
@@ -46,7 +47,7 @@ class Parcel implements Action {
     public static function load($id = null) {
         $sql = "SELECT * FORM Parcel WHERE id=:id";
 
-        //"SELECT * FROM `Parcel` JOIN Addresses ON Parcel.address_id = Addresses.id WHERE Parcel.address_id=:address_id";
+        //"SELECT * FROM Parcel JOIN Addresses ON Parcel.address_id = Addresses.id WHERE Parcel.address_id=:address_id";
 
         self::$db->query($sql);
         self::$db->bind('id', $id);
