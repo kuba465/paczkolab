@@ -13,6 +13,10 @@ class Address implements Action {
     private $street = '';
     private $number = '';
 
+    public function __construct($id) {
+        $this->id = $id;
+    }
+
     function getId() {
         return $this->id;
     }
@@ -66,7 +70,7 @@ class Address implements Action {
     }
 
     public function delete() {
-        $address = Address::load($this->getId());
+        $address = new Address($this->getId());
         $sql = "DELETE FROM Addresses WHERE id=" . $address->getId();
         self::$db->query($sql);
         self::$db->execute();
@@ -103,14 +107,15 @@ class Address implements Action {
         self::$db->bind('id', $id);
         $singleAddress = self::$db->single();
 
-        $address = new Address();
-        $address->setCity($singleAddress['city']);
-        $address->setCode($singleAddress['code']);
-        $address->setStreet($singleAddress['street']);
-        $address->setNumber($singleAddress['number']);
-        $address->id = $singleAddress['id'];
-
-        return $address;
+        return [
+            [
+                'id' => $singleAddress['id'],
+                'city' => $singleAddress['city'],
+                'code' => $singleAddress['code'],
+                'street' => $singleAddress['street'],
+                'flat' => $singleAddress['number'],
+            ]
+        ];
     }
 
     public static function loadAll() {

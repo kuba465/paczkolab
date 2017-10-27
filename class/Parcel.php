@@ -2,18 +2,18 @@
 
 class Parcel implements Action {
 
-    /**
-     *
-     * @var DBmysql $db
-     */
     public static $db;
     private $id = -1;
     private $user_id;
     private $size_id;
     private $address_id;
 
+    public function __construct($id) {
+        $this->id = $id;
+    }
+
     public function delete() {
-        $parcel = Parcel::load($this->getId());
+        $parcel = new Parcel($this->getId());
         $sql = "DELETE FROM Parcel WHERE id=" . $parcel->getId();
         self::$db->query($sql);
         self::$db->execute();
@@ -45,17 +45,19 @@ class Parcel implements Action {
     }
 
     public static function load($id = null) {
-        $sql = "SELECT * FORM Parcel WHERE id=:id";
+        $sql = "SELECT * FROM Parcel WHERE id=:id";
         //"SELECT * FROM Parcel JOIN Addresses ON Parcel.address_id = Addresses.id WHERE Parcel.address_id=:address_id";
         self::$db->query($sql);
         self::$db->bind('id', $id);
         $singleParcel = self::$db->single();
-        $parcel = new Parcel();
-        $parcel->setUserId($singleParcel['user_id']);
-        $parcel->setSizeId($singleParcel['size_id']);
-        $parcel->setAddressId($singleParcel['address_id']);
-        $parcel->id = $singleParcel['id'];
-        return $parcel;
+        return [
+            [
+                'id' => $singleParcel['id'],
+                'user_id' => $singleParcel['user_id'],
+                'size_id' => $singleParcel['size_id'],
+                'address_id' => $singleParcel['address_id'],
+            ]
+        ];
     }
 
     public static function loadAll() {

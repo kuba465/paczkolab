@@ -11,8 +11,12 @@ class Size implements Action {
     private $name = '';
     private $price = 0;
 
+    public function __construct($id) {
+        $this->id = $id;
+    }
+
     public function delete() {
-        $size = Size::load($this->getId());
+        $size = new Size($this->getId());
         $sql = "DELETE FROM Size WHERE id=" . $size->getId();
         self::$db->query($sql);
         self::$db->execute();
@@ -46,11 +50,13 @@ class Size implements Action {
         self::$db->query($sql);
         self::$db->bind('id', $id);
         $singleSize = self::$db->single();
-        $size = new Size();
-        $size->setName($singleSize['name']);
-        $size->setPrice($singleSize['price']);
-        $size->id = $singleSize['id'];
-        return $size;
+        return [
+            [
+                'id' => $singleSize['id'],
+                'size' => $singleSize['name'],
+                'price' => $singleSize['price'],
+            ]
+        ];
     }
 
     public static function loadAll() {

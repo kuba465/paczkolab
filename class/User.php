@@ -2,12 +2,16 @@
 
 class User implements Action {
 
-    private static $db;
-    public $id = -1;
-    public $name = '';
-    public $surname = '';
-    public $credits = 0;
-    public $userAddressId;
+    public static $db;
+    private $id = -1;
+    private $name = '';
+    private $surname = '';
+    private $credits = 0;
+    private $userAddressId;
+
+    public function __construct($id) {
+        $this->id = $id;
+    }
 
     function getId() {
         return $this->id;
@@ -62,7 +66,7 @@ class User implements Action {
     }
 
     public function delete() {
-        $user = User::load($this->getId());
+        $user = new User($this->getId());
         $sql = "DELETE FROM Users WHERE id=" . $user->getId();
         self::$db->query($sql);
         self::$db->execute();
@@ -94,20 +98,20 @@ class User implements Action {
     }
 
     public static function load($id = null) {
-//        $sql = "SELECT * FROM Users
-//                    JOIN Addresses ON Users.user_address = Addresses.id
-//                    WHERE Users.id=:id";
-        $sql = 'SELECT * FROM Users WHERE id=:id'; // U JOIN (SELECT id as address_id, city, code, street, number from Addresses) as A on U.user_address = A.address_id WHERE U.id=:id';
+        $sql = 'SELECT * FROM Users WHERE id=:id';
         self::$db->query($sql);
         self::$db->bind('id', $id);
         $singleUser = self::$db->single();
-        $user = new User();
-        $user->setName($singleUser['name']);
-        $user->setSurname($singleUser['surname']);
-        $user->setCredits($singleUser['credits']);
-        $user->setUserAddressId($singleUser['user_address']);
-        $user->id = $singleUser['id'];
-        return $user;
+
+        return[
+            [
+                'id' => $singleUser['id'],
+                'name' => $singleUser['name'],
+                'surname' => $singleUser['surname'],
+                'credits' => $singleUser['credits'],
+                'address_id' => $singleUser['user_address'],
+            ]
+        ];
     }
 
     public static function loadAll() {
