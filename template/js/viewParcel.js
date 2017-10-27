@@ -31,18 +31,18 @@ $(document).ready(function() {
                 tdSize = $('<td>', {class: "size"}),
                 tdPrice = $('<td>', {class: "price"}),
                 tdAction = $('<td>', {class: "action"}),
-                actionDelete = $('<button>', {class: "delete-btn"}).text('Usuń'),
-                actionForm = $('<form>', {class: "edit-form hide"}),
-                inputAddress = $('<input>', {name: "address", id: "address"}),
-                inputName = $('<input>', {name: "name", id: "name"}),
-                inputSize = $('<input>', {name: "size", id: "size"}),
-                inputPrice = $('<input>', {name: "price", id: "price"}),
-                inputSubmit = $('<input>', {type: "submit"});
+                actionDelete = $('<button>', {class: "delete-btn"}).text('Usuń');
+//                actionForm = $('<form>', {class: "edit-form hide"}),
+//                inputAddress = $('<input>', {name: "address", id: "address"}),
+//                inputName = $('<input>', {name: "name", id: "name"}),
+//                inputSize = $('<input>', {name: "size", id: "size"}),
+//                inputPrice = $('<input>', {name: "price", id: "price"}),
+//                inputSubmit = $('<input>', {type: "submit"});
 
             // Create table element
             tr.append(tdId, tdAddress, tdName, tdSize, tdPrice, tdAction);
-            tdAction.append(actionDelete, actionForm);
-            actionForm.append(inputAddress, inputName, inputSize, inputPrice, inputSubmit);
+            tdAction.append(actionDelete);
+//            actionForm.append(inputAddress, inputName, inputSize, inputPrice, inputSubmit);
             viewParcel.append(tr);
 
             // Insert proper address
@@ -117,9 +117,8 @@ $(document).ready(function() {
         // Delete PARCEL data
         viewParcel.on('click', '.delete-btn', function(e){
             e.preventDefault();
-        
-            var id = $(this).parent().parent().find('td[class=id]').text();
             
+            var id = $(this).parent().parent().find('td[class=id]').text();
             $.ajax({
                 type: "DELETE",
                 url: url,
@@ -131,7 +130,7 @@ $(document).ready(function() {
                 location.reload();
                 alert('Użytkownik został usunięty');
             }).fail(function (response) {
-
+                alert( "Wystąpił błąd");
             });
         });
     }
