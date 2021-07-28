@@ -1,5 +1,7 @@
 # Paczkolab by Jakub Paluszkiewicz and Marta Korza
 
+## Project that I created during my course in CodersLab
+
 ## Description
 We wrote this project in pair. We are using here back-end wrote in PHP and front-end with JavaScript, jQuery, Ajax. This is system where you can add size of pack, add addresses where packs will be send. add users with theirs addresses, names and credits. There is place where you need to add users(customers), select from list address of this customer, add names and some credits. If you made a mistake you can delete or edit user.
 
